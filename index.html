@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鯱光祭進捗バー</title>
+    <style>
+        #ground {            
+            width: 1000px;
+            height: 100px;
+            background: #dddddd;
+            /* box-shadow: 0px 0px 5px #aaa; */
+        }
+        #bar {
+            height: 100px;
+            background: #ed6464;
+        }
+        .flexbox {
+            display: flex;
+        }
+        .tag-li {
+            box-sizing: border-box;
+            padding: 0 0 .5rem .5rem;
+            border-left: 3px solid #e4446c;
+            width: calc(1000px / 6);
+            font-size: .8rem;
+        }
+        @media screen and (max-width: 1050px) {
+            #ground {
+                width: 300px;
+                height: 50px;
+            }
+            #bar {
+                height: 50px;
+            }
+            .tag-li {
+                padding: .5rem .5rem .5rem 0;
+                width: calc(300px / 6);
+                writing-mode: vertical-lr;
+                text-orientation: sideways;
+                font-size: .7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>鯱光祭の進捗</h1>
+    <p id="date"></p>
+    <div id="pgbar">
+        <div id="ground">
+            <div id="bar"></div>
+        </div>
+    </div>
+    <div class="tag flexbox">
+        <div class="tag-li">9/21 前夜祭</div>
+        <div class="tag-li">9/22 体育祭</div>
+        <div class="tag-li">9/23 舞台・分科会</div>
+        <div class="tag-li">9/24 討論会</div>
+        <div class="tag-li">9/25 文化祭</div>
+        <div class="tag-li">9/26 文化祭・後夜祭</div>
+    </div>
+
+    <script>
+        const func1 = () =>  {
+            const bar = document.getElementById('bar');
+            const ground = document.getElementById('ground');
+            let today = new Date();
+            console.log(today.getDate() > 26);
+            console.log(today.getMonth() + 1 !== 9);
+            if (today.getDate() > 26 || today.getMonth() + 1 !== 9) {
+                return;
+            }
+            bar.style.width = String(window.getComputedStyle(ground).getPropertyValue('width').replace('px', '') * (((today.getDate() - 21) * 24 + today.getHours()) / (24 * 6))) + 'px';
+            console.log(window.getComputedStyle(ground).getPropertyValue('width').replace('px', ''));
+        }
+        func1();
+        
+        const func2 = () => {
+            let today = new Date();
+            document.getElementById('date').innerHTML = '現在：' + today.getMonth() + '月' + today.getDate() + '日 ' + today.getHours() + '時' + today.getMinutes() + '分' + today.getSeconds()
+        }
+        func2();
+        setInterval("func2()", 500);
+    </script>
+</body>
+</html>
